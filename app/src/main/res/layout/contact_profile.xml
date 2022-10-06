@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionName="courseImage">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_guidelineCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <View
+        android:id="@+id/v_topWindow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gl_guidelineCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/profile"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
+        app:layout_constraintTop_toTopOf="@+id/v_topWindow" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/f_userData"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="iv_userPhoto, tv_name, tv_career, tv_userAddress"
+        app:flow_verticalStyle="packed"
+        android:layout_marginTop="@dimen/margin_large"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@+id/gl_guidelineCenter"
+        app:layout_constraintEnd_toEndOf="@+id/v_topWindow"
+        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
+        app:layout_constraintTop_toTopOf="@+id/tv_Profile" />
+
+    <ImageView
+        android:id="@+id/iv_userPhoto"
+        android:layout_width="@dimen/user_photo_size"
+        android:layout_height="@dimen/user_photo_size"
+        android:backgroundTint="@drawable/btn_rect"
+        android:contentDescription="@string/user_photo"
+        android:foreground="@drawable/img_shaper_color_prime"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dummy_user_photo"
+        app:layout_constraintEnd_toEndOf="@+id/v_topWindow"
+        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Profile" />
+
+    <ImageButton
+        android:id="@+id/img_btn_back_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_back_arrow"
+        android:layout_marginTop="@dimen/margin_back_arrow"
+        android:background="@drawable/back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/large_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/v_topWindow"
+        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
+        app:layout_constraintTop_toBottomOf="@id/iv_userPhoto" />
+
+    <TextView
+        android:id="@+id/tv_career"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/career"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="@dimen/small_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/v_topWindow"
+        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
+        app:layout_constraintTop_toTopOf="@+id/v_topWindow" />
+
+    <TextView
+        android:id="@+id/tv_userAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/address"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="@dimen/small_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/gl_guidelineCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
+        app:layout_constraintTop_toBottomOf="@id/tv_career" />
+
+
+    <Button
+        android:id="@+id/btn_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_mid"
+        android:layout_marginRight="@dimen/margin_mid"
+        android:layout_marginBottom="@dimen/margin_mid"
+        android:backgroundTint="?attr/colorSecondary"
+        android:text="@string/message"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/mid_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/f_linksToAnotherSN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btn_facebook, btn_linkedIn"
+        app:flow_horizontalGap="@dimen/margin_large"
+        app:flow_horizontalStyle="spread_inside"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@+id/btn_send_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gl_guidelineCenter" />
+
+
+    <Button
+        android:id="@+id/btn_facebook"
+        android:layout_width="@dimen/rect_size"
+        android:layout_height="@dimen/rect_size"
+        android:background="@drawable/btn_rect"
+        android:foreground="@drawable/btn_rect"
+        android:foregroundTint="?attr/colorSecondary"
+        android:text="@string/facebook_logo"
+        android:textColor="?attr/colorSecondary"
+        android:textSize="@dimen/extra_large_text_size"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/btn_linkedIn"
+        android:layout_width="@dimen/rect_size"
+        android:layout_height="@dimen/rect_size"
+        android:background="@drawable/btn_rect"
+        android:foreground="@drawable/btn_rect"
+        android:foregroundTint="?attr/colorSecondary"
+        android:text="@string/insta_logo"
+        android:textColor="?attr/colorSecondary"
+        android:textSize="@dimen/extra_large_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/f_linksToAnotherSN"
+        app:layout_constraintTop_toTopOf="@+id/f_linksToAnotherSN" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

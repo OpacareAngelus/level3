@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+            <shape
+                android:innerRadiusRatio="2"
+                android:shape="ring"
+                android:thicknessRatio="1"
+                android:useLevel="false">
+                <gradient
+                    android:type="radial"
+                    android:gradientRadius="8dp"
+                    android:endColor="?attr/colorPrimary"
+                    />
+            </shape>
+
+    </item>
+    <item android:top="@dimen/camera_centred"
+        android:bottom="@dimen/camera_centred"
+        android:left="@dimen/camera_centred"
+        android:right="@dimen/camera_centred"
+        android:drawable="@drawable/camera"/>
+</layer-list>

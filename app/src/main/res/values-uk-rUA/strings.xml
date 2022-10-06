@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Рівень 2</string>
+    <string name="contacts">Контакти</string>
+    <string name="add_contact">Додати контакт</string>
+    <string name="career">Посада</string>
+    <string name="name">Ім\'я Фамілія</string>
+    <string name="user_photo">User photo</string>
+    <string name="tie_username">Ім\'я та фамілія</string>
+    <string name="tie_email">Електронна скринька</string>
+    <string name="tie_career">Профессія</string>
+    <string name="tie_phone">Мобільний номер</string>
+    <string name="tie_address">Адреса</string>
+    <string name="tie_date_of_birth">Дата народження</string>
+    <string name="save">зберігти</string>
+    <string name="error_wrong_user_data">Бідь ласка заповніть всі поля та оберіть аватар.</string>
+    <string name="profile">Профіль</string>
+    <string name="address">адреса</string>
+    <string name="message">повідомлення</string>
+    <string name="facebook_logo">f</string>
+    <string name="insta_logo">in</string>
+
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tv_name_ts">18sp</dimen>
+    <dimen name="tv_career_ts">12sp</dimen>
+    <dimen name="tv_career_m_bottom">3dp</dimen>
+    <dimen name="rv_contacts_margin">8dp</dimen>
+    <dimen name="margin_back_arrow">20dp</dimen>
+    <dimen name="margin_end_trash_can">8dp</dimen>
+    <dimen name="btn_add_contact_landscape_start_margin">16dp</dimen>
+    <dimen name="tv_add_contact_start_margin">20dp</dimen>
+    <dimen name="user_photo_size">100dp</dimen>
+    <dimen name="ib_camera_size">35dp</dimen>
+    <dimen name="recycler_view_bottom_padding">120dp</dimen>
+
+    <dimen name="small_text_size">11sp</dimen>
+    <dimen name="mid_text_size">14sp</dimen>
+    <dimen name="large_text_size">18sp</dimen>
+    <dimen name="extra_large_text_size">30sp</dimen>
+
+    <dimen name="margin_extra_small">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_mid">16dp</dimen>
+    <dimen name="margin_large">24sp</dimen>
+
+    <dimen name="grey_circle">55dp</dimen>
+    <dimen name="photo_size_in_recycle_view">50dp</dimen>
+    <dimen name="camera_centred">12dp</dimen>
+    <dimen name="rect_size">75dp</dimen>
+
+
+
+</resources>
