@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragments.FragmentContacts">
+    tools:context="fragments.FragmentContacts"
+    android:tag="MyContacts"
+    android:id="@+id/MyContacts">
 
     <View
         android:id="@+id/v_top"
@@ -62,7 +64,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_contacts"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/rv_contacts_margin"
         android:layout_marginEnd="@dimen/rv_contacts_margin"

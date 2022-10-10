@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.level3.R
@@ -63,6 +65,19 @@ class FragmentContacts : Fragment() {
         return binding.root
     }
 
+    private fun openContactDetail(viewHolder: RecyclerView.ViewHolder) {
+        findNavController()
+            .navigate(
+                R.id.action_fragmentContacts_to_fragmentContactProfile,
+                bundleOf(
+                    Pair("photo", userList.getUser(viewHolder.adapterPosition).photo),
+                    Pair("name", userList.getUser(viewHolder.adapterPosition).name),
+                    Pair("career", userList.getUser(viewHolder.adapterPosition).career),
+                    Pair("address", userList.getUser(viewHolder.adapterPosition).homeAddress)
+                )
+            )
+    }
+
     private fun dialogCreate(inflater: LayoutInflater) {
         val dialog = Dialog(inflater.context)
         dialogBinding = AddContactBinding.inflate(inflater)
@@ -85,82 +100,86 @@ class FragmentContacts : Fragment() {
         }
     }
 
-private fun saveButtonListener(dialog: Dialog) {
-    if (dialogBinding.tietUsername.text.toString() != "" &&
-        dialogBinding.tietCareer.text.toString() != "" &&
-        dialogBinding.tietEmail.text.toString() != "" &&
-        dialogBinding.tietPhone.text.toString() != "" &&
-        dialogBinding.tietAddress.text.toString() != "" &&
-        dialogBinding.tietDataOfBirth.text.toString() != ""
-    ) {
-        saveButtonAction(dialog)
-    } else {
-        Toast.makeText(
-            dialog.context,
-            getString(R.string.error_wrong_user_data),
-            Toast.LENGTH_LONG
-        ).show()
-    }
-}
-
-private fun saveButtonAction(dialog: Dialog) {
-    var user = User(
-        0,
-        contactPhoto.toString(),
-        dialogBinding.tietUsername.text.toString(),
-        dialogBinding.tietCareer.text.toString(),
-        dialogBinding.tietEmail.text.toString(),
-        dialogBinding.tietPhone.text.toString(),
-        dialogBinding.tietAddress.text.toString(),
-        dialogBinding.tietDataOfBirth.text.toString()
-    )
-    userList.add(userList.size(), user)
-    binding.rvContacts.adapter?.notifyItemRangeChanged(0, userList.size())
-    dialog.dismiss()
-}
-
-private var simpleCallback =
-    object : ItemTouchHelper.SimpleCallback(
-        0, ItemTouchHelper.LEFT
-    ) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            TODO("Not yet implemented")
+    private fun saveButtonListener(dialog: Dialog) {
+        if (dialogBinding.tietUsername.text.toString() != "" &&
+            dialogBinding.tietCareer.text.toString() != "" &&
+            dialogBinding.tietEmail.text.toString() != "" &&
+            dialogBinding.tietPhone.text.toString() != "" &&
+            dialogBinding.tietAddress.text.toString() != "" &&
+            dialogBinding.tietDataOfBirth.text.toString() != ""
+        ) {
+            saveButtonAction(dialog)
+        } else {
+            Toast.makeText(
+                dialog.context,
+                getString(R.string.error_wrong_user_data),
+                Toast.LENGTH_LONG
+            ).show()
         }
+    }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            when (direction) {
-                ItemTouchHelper.LEFT -> {
-                    val user = userList.getUser(viewHolder.adapterPosition)
-                    val delMessage = Snackbar.make(
-                        viewHolder.itemView,
-                        "${user.name} has deleted.",
-                        Snackbar.LENGTH_LONG
-                    )
-                    userList.delete(viewHolder.adapterPosition)
-                    binding.rvContacts.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
-                    binding.rvContacts.adapter?.notifyItemRangeChanged(
-                        viewHolder.adapterPosition,
-                        binding.rvContacts.adapter!!.itemCount
-                    )
-                    backUser(user, delMessage, viewHolder.adapterPosition)
-                    delMessage.show()
+    private fun saveButtonAction(dialog: Dialog) {
+        var user = User(
+            0,
+            contactPhoto.toString(),
+            dialogBinding.tietUsername.text.toString(),
+            dialogBinding.tietCareer.text.toString(),
+            dialogBinding.tietEmail.text.toString(),
+            dialogBinding.tietPhone.text.toString(),
+            dialogBinding.tietAddress.text.toString(),
+            dialogBinding.tietDataOfBirth.text.toString()
+        )
+        userList.add(userList.size(), user)
+        binding.rvContacts.adapter?.notifyItemRangeChanged(0, userList.size())
+        dialog.dismiss()
+    }
+
+    private var simpleCallback =
+        object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
+        ) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when (direction) {
+                    ItemTouchHelper.LEFT -> {
+                        val user = userList.getUser(viewHolder.adapterPosition)
+                        val delMessage = Snackbar.make(
+                            viewHolder.itemView,
+                            "${user.name} has deleted.",
+                            Snackbar.LENGTH_LONG
+                        )
+                        userList.delete(viewHolder.adapterPosition)
+                        binding.rvContacts.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
+                        binding.rvContacts.adapter?.notifyItemRangeChanged(
+                            viewHolder.adapterPosition,
+                            binding.rvContacts.adapter!!.itemCount
+                        )
+                        backUser(user, delMessage, viewHolder.adapterPosition)
+                        delMessage.show()
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        openContactDetail(viewHolder)
+                    }
                 }
             }
         }
-    }
 
-/**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
-private fun backUser(user: User, delMessage: Snackbar, position: Int) {
-    delMessage.setAction("Cancel", View.OnClickListener() {
-        userList.add(user.id, user)
-        binding.rvContacts.adapter?.notifyItemRangeChanged(
-            position,
-            binding.rvContacts.adapter!!.itemCount
-        )
-    })
-}
+    /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
+    private fun backUser(user: User, delMessage: Snackbar, position: Int) {
+        delMessage.setAction("Cancel", View.OnClickListener() {
+            userList.add(user.id, user)
+            binding.rvContacts.adapter?.notifyItemRangeChanged(
+                position,
+                binding.rvContacts.adapter!!.itemCount
+            )
+        })
+    }
 }
