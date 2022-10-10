@@ -37,8 +37,8 @@ open class RecyclerAdapter(userList: UsersViewModel) :
         holder.nameField.text = userList.getUser(position).name
         holder.careerField.text = userList.getUser(position).career
         holder.userPhoto.addImage(userList.getUser(position))
-        holder.deleteBtn.tag = userList.getUser(position)
         userList.getUser(position).id = holder.adapterPosition
+        holder.deleteBtn.tag = userList.getUser(position)
         holder.deleteBtn.setOnClickListener(this)
     }
 

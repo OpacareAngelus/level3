@@ -24,28 +24,21 @@ class FragmentContactProfile : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        addData()
+        val bundle = arguments
+        addData(bundle)
         binding.imgBtnBackArrow.setOnClickListener{
             findNavController().navigate(R.id.action_fragmentContactProfile_to_fragmentContacts)
         }
         return binding.root
     }
 
-    private fun addData() {
+    private fun addData(bundle: Bundle?) {
         binding = ContactProfileBinding.inflate(layoutInflater)
-        binding.ivUserPhoto.addImage(requireArguments().getString(photo))
-        binding.tvName.text = requireArguments().getString(name)
-        binding.tvCareer.text = requireArguments().getString(career)
-        binding.tvUserAddress.text = requireArguments().getString(address)
+        binding.ivUserPhoto.addImage(bundle?.let { FragmentContactsArgs.fromBundle(it).photo })
+        binding.tvName.text = bundle?.let { FragmentContactsArgs.fromBundle(it).name }
+        binding.tvCareer.text = bundle?.let { FragmentContactsArgs.fromBundle(it).career }
+        binding.tvUserAddress.text = bundle?.let { FragmentContactsArgs.fromBundle(it).address }
     }
-
-    companion object {
-        const val photo = "photo"
-        const val name = "name"
-        const val career = "career"
-        const val address = "address"
-    }
-
 }
 
 private fun ImageView.addImage(photo: String?) {
