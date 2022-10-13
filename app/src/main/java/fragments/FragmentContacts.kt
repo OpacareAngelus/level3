@@ -24,12 +24,13 @@ import com.example.level3.databinding.MyContactsBinding
 import com.google.android.material.snackbar.Snackbar
 import model.User
 import model.UsersViewModel
+import ui.MainActivity
 
 class FragmentContacts : Fragment() {
     private lateinit var adapter: RecyclerAdapter
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
-    var userList: UsersViewModel = UsersViewModel()
+    var userList: UsersViewModel = MainActivity().userList
 
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private var contactPhoto: Uri? = null

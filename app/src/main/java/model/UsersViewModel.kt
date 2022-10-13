@@ -3,7 +3,7 @@ package model
 import androidx.lifecycle.ViewModel
 import data.UserData
 
-class UsersViewModel : ViewModel() {
+class UsersViewModel() : ViewModel() {
 
     private var userList: ArrayList<User> = arrayListOf()
 
