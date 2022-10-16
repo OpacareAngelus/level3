@@ -1,5 +1,6 @@
 package fragments
 
+import activity.MainActivity
 import adapter.RecyclerAdapter
 import android.app.Activity
 import android.app.Dialog
@@ -24,10 +25,8 @@ import com.example.level3.databinding.MyContactsBinding
 import com.google.android.material.snackbar.Snackbar
 import model.User
 import model.UsersViewModel
-import ui.MainActivity
 
 class FragmentContacts : Fragment() {
-    private lateinit var adapter: RecyclerAdapter
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
     var userList: UsersViewModel = MainActivity().userList
@@ -73,10 +72,10 @@ class FragmentContacts : Fragment() {
             .navigate(
                 R.id.action_fragmentContacts_to_fragmentContactProfile,
                 bundleOf(
-                    Pair("photo", userList.getUser(viewHolder.adapterPosition).photo),
-                    Pair("name", userList.getUser(viewHolder.adapterPosition).name),
-                    Pair("career", userList.getUser(viewHolder.adapterPosition).career),
-                    Pair("address", userList.getUser(viewHolder.adapterPosition).homeAddress)
+                    Pair("photo", userList.getUser(viewHolder.adapterPosition)?.photo),
+                    Pair("name", userList.getUser(viewHolder.adapterPosition)?.name),
+                    Pair("career", userList.getUser(viewHolder.adapterPosition)?.career),
+                    Pair("address", userList.getUser(viewHolder.adapterPosition)?.homeAddress)
                 )
             )
     }
@@ -132,8 +131,8 @@ class FragmentContacts : Fragment() {
             dialogBinding.tietAddress.text.toString(),
             dialogBinding.tietDataOfBirth.text.toString()
         )
-        userList.add(userList.size(), user)
-        binding.rvContacts.adapter?.notifyItemRangeChanged(0, userList.size())
+        userList.add(user)
+        userList.size()?.let { binding.rvContacts.adapter?.notifyItemRangeChanged(0, it) }
         dialog.dismiss()
     }
 
@@ -155,7 +154,7 @@ class FragmentContacts : Fragment() {
                         val user = userList.getUser(viewHolder.adapterPosition)
                         val delMessage = Snackbar.make(
                             viewHolder.itemView,
-                            "${user.name} has deleted.",
+                            "${user?.name} has deleted.",
                             Snackbar.LENGTH_LONG
                         )
                         userList.delete(viewHolder.adapterPosition)
@@ -164,7 +163,7 @@ class FragmentContacts : Fragment() {
                             viewHolder.adapterPosition,
                             binding.rvContacts.adapter!!.itemCount
                         )
-                        backUser(user, delMessage, viewHolder.adapterPosition)
+                        user?.let { undoUserDeletion(it, delMessage, viewHolder.adapterPosition) }
                         delMessage.show()
                     }
                     ItemTouchHelper.RIGHT -> {
@@ -175,9 +174,9 @@ class FragmentContacts : Fragment() {
         }
 
     /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
-    private fun backUser(user: User, delMessage: Snackbar, position: Int) {
+    private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
         delMessage.setAction("Cancel", View.OnClickListener() {
-            userList.add(user.id, user)
+            userList.add(user)
             binding.rvContacts.adapter?.notifyItemRangeChanged(
                 position,
                 binding.rvContacts.adapter!!.itemCount

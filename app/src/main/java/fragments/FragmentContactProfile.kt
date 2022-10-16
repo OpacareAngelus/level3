@@ -8,16 +8,11 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.example.level3.R
 import com.example.level3.databinding.ContactProfileBinding
 
 class FragmentContactProfile : Fragment() {
 
     private lateinit var binding: ContactProfileBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +22,7 @@ class FragmentContactProfile : Fragment() {
         val bundle = arguments
         addData(bundle)
         binding.imgBtnBackArrow.setOnClickListener{
-            findNavController().navigate(R.id.action_fragmentContactProfile_to_fragmentContacts)
+            findNavController().navigateUp()
         }
         return binding.root
     }

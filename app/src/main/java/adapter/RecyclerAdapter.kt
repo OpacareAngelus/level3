@@ -34,15 +34,15 @@ open class RecyclerAdapter(userList: UsersViewModel) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.nameField.text = userList.getUser(position).name
-        holder.careerField.text = userList.getUser(position).career
-        holder.userPhoto.addImage(userList.getUser(position))
-        userList.getUser(position).id = holder.adapterPosition
+        holder.nameField.text = userList.getUser(position)?.name
+        holder.careerField.text = userList.getUser(position)?.career
+        userList.getUser(position)?.let { holder.userPhoto.addImage(it) }
+        userList.getUser(position)?.id = holder.adapterPosition
         holder.deleteBtn.tag = userList.getUser(position)
         holder.deleteBtn.setOnClickListener(this)
     }
 
-    override fun getItemCount() = userList.size()
+    override fun getItemCount(): Int = userList.size()!!
 
     override fun onClick(v: View?) {
         val user = v?.tag as User
@@ -57,16 +57,16 @@ open class RecyclerAdapter(userList: UsersViewModel) :
         val delMessage = Snackbar.make(v, "${user.name} has deleted.", Snackbar.LENGTH_LONG)
         userList.delete(user.id)
         notifyItemRemoved(user.id)
-        notifyItemRangeChanged(user.id, userList.size())
-        backUser(user, delMessage)
+        userList.size()?.let { notifyItemRangeChanged(user.id, it) }
+        undoUserDeletion(user, delMessage)
         delMessage.show()
     }
 
     /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
-    private fun backUser(user: User, delMessage: Snackbar) {
+    private fun undoUserDeletion(user: User, delMessage: Snackbar) {
         delMessage.setAction("Cancel", View.OnClickListener() {
-            userList.add(user.id, user)
-            notifyItemRangeChanged(user.id, userList.size())
+            userList.add(user)
+            userList.size()?.let { it1 -> notifyItemRangeChanged(user.id, it1) }
         })
     }
 }
