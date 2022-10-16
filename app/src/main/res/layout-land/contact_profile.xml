@@ -121,7 +121,7 @@
         android:id="@+id/f_linksToAnotherSN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="btn_facebook, btn_linkedIn"
+        app:constraint_referenced_ids="iv_facebook, iv_linkedIn"
         app:flow_horizontalGap="@dimen/margin_large"
         app:flow_horizontalStyle="spread_inside"
         app:flow_wrapMode="chain"
@@ -130,31 +130,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/gl_guidelineCenter" />
 
+    <ImageView
+        android:id="@+id/iv_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/facebook_logo"
+        tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/btn_facebook"
-        android:layout_width="@dimen/rect_size"
-        android:layout_height="@dimen/rect_size"
-        android:background="@drawable/btn_rect"
-        android:foreground="@drawable/btn_rect"
-        android:foregroundTint="?attr/colorSecondary"
-        android:text="@string/facebook_logo"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="@dimen/extra_large_text_size"
-        android:textStyle="bold"/>
-
-    <Button
-        android:id="@+id/btn_linkedIn"
-        android:layout_width="@dimen/rect_size"
-        android:layout_height="@dimen/rect_size"
-        android:background="@drawable/btn_rect"
-        android:foreground="@drawable/btn_rect"
-        android:foregroundTint="?attr/colorSecondary"
-        android:text="@string/insta_logo"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="@dimen/extra_large_text_size"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/f_linksToAnotherSN"
-        app:layout_constraintTop_toTopOf="@+id/f_linksToAnotherSN" />
+    <ImageView
+        android:id="@+id/iv_linkedIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/linkedin_logo"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
