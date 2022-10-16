@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.level3.R
 import com.google.android.material.snackbar.Snackbar
@@ -14,11 +16,21 @@ import model.User
 import model.UsersViewModel
 
 
-open class RecyclerAdapter(userList: UsersViewModel) :
-    RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>(),
-    View.OnClickListener {
+class RecyclerAdapter(
+    private val userList: UsersViewModel,
+//    private val onDeleteUser: (User) -> Unit
+) :
+    ListAdapter<User, RecyclerAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<User>() {
 
-    var userList = userList
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
+        }
+    }),
+    View.OnClickListener {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameField: TextView = itemView.findViewById(R.id.tv_name)
