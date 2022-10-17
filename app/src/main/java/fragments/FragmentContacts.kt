@@ -1,6 +1,5 @@
 package fragments
 
-import activity.MainActivity
 import adapter.RecyclerAdapter
 import android.app.Activity
 import android.app.Dialog
@@ -30,7 +29,7 @@ class FragmentContacts : Fragment() {
 
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
-    var viewmodel: UsersViewModel = MainActivity().userList
+    var viewmodel: UsersViewModel = UsersViewModel()
 
     private val usersAdapter by lazy {
         RecyclerAdapter(
