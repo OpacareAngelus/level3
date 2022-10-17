@@ -27,9 +27,19 @@ import model.User
 import model.UsersViewModel
 
 class FragmentContacts : Fragment() {
+
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
-    var userList: UsersViewModel = MainActivity().userList
+    var viewmodel: UsersViewModel = MainActivity().userList
+
+    private val usersAdapter by lazy {
+        RecyclerAdapter(
+            viewmodel,
+            onDeleteUser = { user ->
+                viewmodel.deleteUser(user)
+            }
+        )
+    }
 
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private var contactPhoto: Uri? = null
@@ -51,15 +61,13 @@ class FragmentContacts : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //Binding
         binding = MyContactsBinding.inflate(layoutInflater)
-        //Create RecyclerView
-        val recyclerView: RecyclerView = binding.rvContacts
-        recyclerView.adapter = RecyclerAdapter(userList)
-        //ItemTouch
-        ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView)
 
-        //Listener
+        val recyclerView: RecyclerView = binding.rvContacts
+        recyclerView.adapter = usersAdapter
+
+        ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView)
+        
         binding.tvAddContact.setOnClickListener {
             dialogCreate(inflater)
         }
@@ -67,15 +75,15 @@ class FragmentContacts : Fragment() {
     }
 
 
-     private fun openContactDetail(viewHolder: RecyclerView.ViewHolder) {
+    private fun openContactDetail(viewHolder: RecyclerView.ViewHolder) {
         findNavController()
             .navigate(
                 R.id.action_fragmentContacts_to_fragmentContactProfile,
                 bundleOf(
-                    Pair("photo", userList.getUser(viewHolder.adapterPosition)?.photo),
-                    Pair("name", userList.getUser(viewHolder.adapterPosition)?.name),
-                    Pair("career", userList.getUser(viewHolder.adapterPosition)?.career),
-                    Pair("address", userList.getUser(viewHolder.adapterPosition)?.homeAddress)
+                    Pair("photo", viewmodel.getUser(viewHolder.adapterPosition)?.photo),
+                    Pair("name", viewmodel.getUser(viewHolder.adapterPosition)?.name),
+                    Pair("career", viewmodel.getUser(viewHolder.adapterPosition)?.career),
+                    Pair("address", viewmodel.getUser(viewHolder.adapterPosition)?.homeAddress)
                 )
             )
     }
@@ -121,18 +129,19 @@ class FragmentContacts : Fragment() {
     }
 
     private fun saveButtonAction(dialog: Dialog) {
-        var user = User(
-            0,
-            contactPhoto.toString(),
-            dialogBinding.tietUsername.text.toString(),
-            dialogBinding.tietCareer.text.toString(),
-            dialogBinding.tietEmail.text.toString(),
-            dialogBinding.tietPhone.text.toString(),
-            dialogBinding.tietAddress.text.toString(),
-            dialogBinding.tietDataOfBirth.text.toString()
+        viewmodel.add(
+            User(
+                0,
+                contactPhoto.toString(),
+                dialogBinding.tietUsername.text.toString(),
+                dialogBinding.tietCareer.text.toString(),
+                dialogBinding.tietEmail.text.toString(),
+                dialogBinding.tietPhone.text.toString(),
+                dialogBinding.tietAddress.text.toString(),
+                dialogBinding.tietDataOfBirth.text.toString()
+            )
         )
-        userList.add(user)
-        userList.size()?.let { binding.rvContacts.adapter?.notifyItemRangeChanged(0, it) }
+        viewmodel.size()?.let { usersAdapter.notifyItemRangeChanged(0, it) }
         dialog.dismiss()
     }
 
@@ -151,17 +160,17 @@ class FragmentContacts : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        val user = userList.getUser(viewHolder.adapterPosition)
+                        val user = viewmodel.getUser(viewHolder.adapterPosition)
                         val delMessage = Snackbar.make(
                             viewHolder.itemView,
                             "${user?.name} has deleted.",
                             Snackbar.LENGTH_LONG
                         )
-                        userList.delete(viewHolder.adapterPosition)
-                        binding.rvContacts.adapter?.notifyItemRemoved(viewHolder.adapterPosition)
-                        binding.rvContacts.adapter?.notifyItemRangeChanged(
+                        viewmodel.deleteUser(viewHolder.adapterPosition)
+                        usersAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                        usersAdapter.notifyItemRangeChanged(
                             viewHolder.adapterPosition,
-                            binding.rvContacts.adapter!!.itemCount
+                            usersAdapter.itemCount
                         )
                         user?.let { undoUserDeletion(it, delMessage, viewHolder.adapterPosition) }
                         delMessage.show()
@@ -175,12 +184,12 @@ class FragmentContacts : Fragment() {
 
     /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
     private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
-        delMessage.setAction("Cancel", View.OnClickListener() {
-            userList.add(user)
-            binding.rvContacts.adapter?.notifyItemRangeChanged(
+        delMessage.setAction("Cancel") {
+            viewmodel.add(user)
+            usersAdapter.notifyItemRangeChanged(
                 position,
-                binding.rvContacts.adapter!!.itemCount
+                usersAdapter.itemCount
             )
-        })
+        }
     }
 }
