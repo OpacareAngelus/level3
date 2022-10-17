@@ -31,7 +31,7 @@ class RecyclerAdapter(
     View.OnClickListener {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var binding : RecyclerviewItemBinding
+        lateinit var binding: RecyclerviewItemBinding
 
         fun bind() {
             binding = RecyclerviewItemBinding.bind(itemView)
