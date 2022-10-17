@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_mid"
     android:background="@drawable/frame_rounding"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:tag="ThisRecyclerView">
 
     <ImageView
         android:id="@+id/iv_user_photo"
