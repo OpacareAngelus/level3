@@ -36,7 +36,7 @@ class FragmentContacts : Fragment() {
         RecyclerAdapter(
             viewmodel,
             onDeleteUser = { user ->
-                viewmodel.deleteUser(user)
+                viewmodel.userListLiveData.value?.remove(user)
             }
         )
     }
@@ -130,7 +130,7 @@ class FragmentContacts : Fragment() {
     }
 
     private fun saveButtonAction(dialog: Dialog) {
-        viewmodel.add(
+        viewmodel.userListLiveData.value?.add(
             User(
                 0,
                 contactPhoto.toString(),
@@ -142,7 +142,7 @@ class FragmentContacts : Fragment() {
                 dialogBinding.tietDataOfBirth.text.toString()
             )
         )
-        viewmodel.size()?.let { usersAdapter.notifyItemRangeChanged(0, it) }
+        usersAdapter.itemCount.let { usersAdapter.notifyItemRangeChanged(0, it) }
         dialog.dismiss()
     }
 
@@ -167,7 +167,7 @@ class FragmentContacts : Fragment() {
                             "${user?.name} has deleted.",
                             Snackbar.LENGTH_LONG
                         )
-                        viewmodel.deleteUser(viewHolder.adapterPosition)
+                        viewmodel.userListLiveData.value?.removeAt(viewHolder.adapterPosition)
                         usersAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                         usersAdapter.notifyItemRangeChanged(
                             viewHolder.adapterPosition,
@@ -186,7 +186,7 @@ class FragmentContacts : Fragment() {
     /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
     private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
         delMessage.setAction("Cancel") {
-            viewmodel.add(user)
+            viewmodel.userListLiveData.value?.add(user)
             usersAdapter.notifyItemRangeChanged(
                 position,
                 usersAdapter.itemCount
