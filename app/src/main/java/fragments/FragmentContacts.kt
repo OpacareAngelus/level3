@@ -63,11 +63,6 @@ class FragmentContacts : Fragment() {
     ): View {
         binding = MyContactsBinding.inflate(layoutInflater)
 
-        val recyclerView: RecyclerView = binding.rvContacts
-        recyclerView.adapter = usersAdapter
-
-        ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView)
-
         binding.tvAddContact.setOnClickListener {
             dialogCreate(inflater)
         }
@@ -75,6 +70,14 @@ class FragmentContacts : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView: RecyclerView = binding.rvContacts
+        recyclerView.adapter = usersAdapter
+        ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView)
+
+    }
 
     fun openContactDetail(viewHolder: RecyclerView.ViewHolder) {
         findNavController()
