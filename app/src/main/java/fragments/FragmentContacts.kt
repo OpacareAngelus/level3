@@ -67,15 +67,16 @@ class FragmentContacts : Fragment() {
         recyclerView.adapter = usersAdapter
 
         ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView)
-        
+
         binding.tvAddContact.setOnClickListener {
             dialogCreate(inflater)
         }
+
         return binding.root
     }
 
 
-    private fun openContactDetail(viewHolder: RecyclerView.ViewHolder) {
+    fun openContactDetail(viewHolder: RecyclerView.ViewHolder) {
         findNavController()
             .navigate(
                 R.id.action_fragmentContacts_to_fragmentContactProfile,
