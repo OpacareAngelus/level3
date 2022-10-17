@@ -18,12 +18,11 @@ class UsersViewModel : ViewModel() {
 
     fun size() = _userListLiveData.value?.size
 
-    fun delete(position: Int) = _userListLiveData.value?.removeAt(position)
+    fun deleteUser(position: Int) = _userListLiveData.value?.removeAt(position)
+    fun deleteUser(user: User) = _userListLiveData.value?.remove(user)
+
 
     fun add(user: User?) {
-        val newList = _userListLiveData.value.also {
-            user?.let { it1 -> it?.add(it1) }
-        }
-        _userListLiveData.value = newList!!
+        if(user != null) _userListLiveData.value?.add(user)
     }
 }
