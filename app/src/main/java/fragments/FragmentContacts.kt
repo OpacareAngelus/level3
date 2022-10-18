@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +29,7 @@ class FragmentContacts : Fragment() {
 
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
-    var viewmodel: UsersViewModel = UsersViewModel()
+    private val viewmodel: UsersViewModel by viewModels()
 
     private val usersAdapter by lazy {
         RecyclerAdapter(
