@@ -94,15 +94,8 @@ class FragmentContacts : Fragment() {
 
     private fun setObservers() {
         viewmodel.userListLiveData.observe(viewLifecycleOwner) {
-            println("Show me usersAdapter.currentList before submitList ${usersAdapter.currentList}")
             usersAdapter.submitList(viewmodel.userListLiveData.value)
-            println("Show me usersAdapter.currentList after submitList ${usersAdapter.currentList}")
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        println("Show me usersAdapter.currentList onPause this activity: ${usersAdapter.currentList}")
     }
 
     //Swipe here
