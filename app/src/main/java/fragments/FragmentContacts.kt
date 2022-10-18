@@ -29,13 +29,14 @@ class FragmentContacts : Fragment() {
 
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
-    private val viewmodel: UsersViewModel by viewModels()
+
+    private val viewModel: UsersViewModel by viewModels()
 
     private val usersAdapter by lazy {
         RecyclerAdapter(
-            viewmodel,
+            viewModel,
             onDeleteUser = { user ->
-                viewmodel.userListLiveData.value?.remove(user)
+                viewModel.userListLiveData.value?.remove(user)
             }
         )
     }
@@ -84,17 +85,17 @@ class FragmentContacts : Fragment() {
             .navigate(
                 R.id.action_fragmentContacts_to_fragmentContactProfile,
                 bundleOf(
-                    Pair("photo", viewmodel.getUser(viewHolder.adapterPosition)?.photo),
-                    Pair("name", viewmodel.getUser(viewHolder.adapterPosition)?.name),
-                    Pair("career", viewmodel.getUser(viewHolder.adapterPosition)?.career),
-                    Pair("address", viewmodel.getUser(viewHolder.adapterPosition)?.homeAddress)
+                    Pair("photo", viewModel.getUser(viewHolder.adapterPosition)?.photo),
+                    Pair("name", viewModel.getUser(viewHolder.adapterPosition)?.name),
+                    Pair("career", viewModel.getUser(viewHolder.adapterPosition)?.career),
+                    Pair("address", viewModel.getUser(viewHolder.adapterPosition)?.homeAddress)
                 )
             )
     }
 
     private fun setObservers() {
-        viewmodel.userListLiveData.observe(viewLifecycleOwner) {
-            usersAdapter.submitList(viewmodel.userListLiveData.value)
+        viewModel.userListLiveData.observe(viewLifecycleOwner) {
+            usersAdapter.submitList(viewModel.userListLiveData.value)
         }
     }
 
@@ -115,13 +116,13 @@ class FragmentContacts : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        val user = viewmodel.getUser(viewHolder.adapterPosition)
+                        val user = viewModel.getUser(viewHolder.adapterPosition)
                         val delMessage = Snackbar.make(
                             viewHolder.itemView,
                             "${user?.name} has deleted.",
                             Snackbar.LENGTH_LONG
                         )
-                        viewmodel.userListLiveData.value?.removeAt(viewHolder.adapterPosition)
+                        viewModel.userListLiveData.value?.removeAt(viewHolder.adapterPosition)
                         usersAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                         usersAdapter.notifyItemRangeChanged(
                             viewHolder.adapterPosition,
@@ -140,7 +141,7 @@ class FragmentContacts : Fragment() {
     /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
     private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
         delMessage.setAction("Cancel") {
-            viewmodel.userListLiveData.value?.add(user)
+            viewModel.userListLiveData.value?.add(user)
             usersAdapter.notifyItemRangeChanged(
                 position,
                 usersAdapter.itemCount
@@ -192,7 +193,7 @@ class FragmentContacts : Fragment() {
 //    }
 
     private fun saveButtonAction(dialog: Dialog) {
-        viewmodel.userListLiveData.value?.add(
+        viewModel.userListLiveData.value?.add(
             User(
                 0,
                 contactPhoto.toString(),
