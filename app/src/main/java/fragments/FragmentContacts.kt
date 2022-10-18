@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
@@ -65,13 +64,13 @@ class FragmentContacts : Fragment() {
         binding.tvAddContact.setOnClickListener {
             dialogCreate(inflater)
         }
-
-        setObservers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setObservers()
 
         val recyclerView: RecyclerView = binding.rvContacts
         recyclerView.adapter = usersAdapter
@@ -92,17 +91,17 @@ class FragmentContacts : Fragment() {
             )
     }
 
-    override fun onPause() {
-        super.onPause()
-        println("Show me usersAdapter.currentList onPause this activity: ${usersAdapter.currentList}")
-    }
-
     private fun setObservers() {
         viewmodel.userListLiveData.observe(viewLifecycleOwner) {
             println("Show me usersAdapter.currentList before submitList ${usersAdapter.currentList}")
             usersAdapter.submitList(viewmodel.userListLiveData.value)
             println("Show me usersAdapter.currentList after submitList ${usersAdapter.currentList}")
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("Show me usersAdapter.currentList onPause this activity: ${usersAdapter.currentList}")
     }
 
     //Swipe here
@@ -160,7 +159,6 @@ class FragmentContacts : Fragment() {
     private fun dialogCreate(inflater: LayoutInflater) {
         val dialog = Dialog(inflater.context)
         dialogBinding = AddContactBinding.inflate(inflater)
-        dialog.setCancelable(false)
         dialog.setContentView(dialogBinding.root)
         setDialogListeners(dialog)
         dialog.show()
@@ -171,7 +169,7 @@ class FragmentContacts : Fragment() {
             dialog.dismiss()
         }
         dialogBinding.btnSaveContact.setOnClickListener {
-            saveButtonListener(dialog)
+            saveButtonAction(dialog)
         }
         dialogBinding.ivAddPhoto.setOnClickListener() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -179,23 +177,25 @@ class FragmentContacts : Fragment() {
         }
     }
 
-    private fun saveButtonListener(dialog: Dialog) {
-        if (dialogBinding.tietUsername.text.toString() != "" &&
-            dialogBinding.tietCareer.text.toString() != "" &&
-            dialogBinding.tietEmail.text.toString() != "" &&
-            dialogBinding.tietPhone.text.toString() != "" &&
-            dialogBinding.tietAddress.text.toString() != "" &&
-            dialogBinding.tietDataOfBirth.text.toString() != ""
-        ) {
-            saveButtonAction(dialog)
-        } else {
-            Toast.makeText(
-                dialog.context,
-                getString(R.string.error_wrong_user_data),
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
+//    I just was test validation here.
+//    Right now no reason to use that it's just test are field empty or not.
+//    private fun saveButtonListener(dialog: Dialog) {
+//        if (dialogBinding.tietUsername.text.toString() != "" &&
+//            dialogBinding.tietCareer.text.toString() != "" &&
+//            dialogBinding.tietEmail.text.toString() != "" &&
+//            dialogBinding.tietPhone.text.toString() != "" &&
+//            dialogBinding.tietAddress.text.toString() != "" &&
+//            dialogBinding.tietDataOfBirth.text.toString() != ""
+//        ) {
+//            saveButtonAction(dialog)
+//        } else {
+//            Toast.makeText(
+//                dialog.context,
+//                getString(R.string.error_wrong_user_data),
+//                Toast.LENGTH_LONG
+//            ).show()
+//        }
+//    }
 
     private fun saveButtonAction(dialog: Dialog) {
         viewmodel.userListLiveData.value?.add(
