@@ -66,6 +66,7 @@ class FragmentContacts : Fragment() {
             dialogCreate(inflater)
         }
 
+        setObservers()
         return binding.root
     }
 
@@ -90,6 +91,71 @@ class FragmentContacts : Fragment() {
                 )
             )
     }
+
+    override fun onPause() {
+        super.onPause()
+        println("Show me usersAdapter.currentList onPause this activity: ${usersAdapter.currentList}")
+    }
+
+    private fun setObservers() {
+        viewmodel.userListLiveData.observe(viewLifecycleOwner) {
+            println("Show me usersAdapter.currentList before submitList ${usersAdapter.currentList}")
+            usersAdapter.submitList(viewmodel.userListLiveData.value)
+            println("Show me usersAdapter.currentList after submitList ${usersAdapter.currentList}")
+        }
+    }
+
+    //Swipe here
+
+    private var simpleCallback =
+        object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when (direction) {
+                    ItemTouchHelper.LEFT -> {
+                        val user = viewmodel.getUser(viewHolder.adapterPosition)
+                        val delMessage = Snackbar.make(
+                            viewHolder.itemView,
+                            "${user?.name} has deleted.",
+                            Snackbar.LENGTH_LONG
+                        )
+                        viewmodel.userListLiveData.value?.removeAt(viewHolder.adapterPosition)
+                        usersAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                        usersAdapter.notifyItemRangeChanged(
+                            viewHolder.adapterPosition,
+                            usersAdapter.itemCount
+                        )
+                        user?.let { undoUserDeletion(it, delMessage, viewHolder.adapterPosition) }
+                        delMessage.show()
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        openContactDetail(viewHolder)
+                    }
+                }
+            }
+        }
+
+    /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
+    private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
+        delMessage.setAction("Cancel") {
+            viewmodel.userListLiveData.value?.add(user)
+            usersAdapter.notifyItemRangeChanged(
+                position,
+                usersAdapter.itemCount
+            )
+        }
+    }
+
+    //add user dialog here
 
     private fun dialogCreate(inflater: LayoutInflater) {
         val dialog = Dialog(inflater.context)
@@ -146,53 +212,5 @@ class FragmentContacts : Fragment() {
         )
         usersAdapter.itemCount.let { usersAdapter.notifyItemRangeChanged(0, it) }
         dialog.dismiss()
-    }
-
-    private var simpleCallback =
-        object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                when (direction) {
-                    ItemTouchHelper.LEFT -> {
-                        val user = viewmodel.getUser(viewHolder.adapterPosition)
-                        val delMessage = Snackbar.make(
-                            viewHolder.itemView,
-                            "${user?.name} has deleted.",
-                            Snackbar.LENGTH_LONG
-                        )
-                        viewmodel.userListLiveData.value?.removeAt(viewHolder.adapterPosition)
-                        usersAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-                        usersAdapter.notifyItemRangeChanged(
-                            viewHolder.adapterPosition,
-                            usersAdapter.itemCount
-                        )
-                        user?.let { undoUserDeletion(it, delMessage, viewHolder.adapterPosition) }
-                        delMessage.show()
-                    }
-                    ItemTouchHelper.RIGHT -> {
-                        openContactDetail(viewHolder)
-                    }
-                }
-            }
-        }
-
-    /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
-    private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
-        delMessage.setAction("Cancel") {
-            viewmodel.userListLiveData.value?.add(user)
-            usersAdapter.notifyItemRangeChanged(
-                position,
-                usersAdapter.itemCount
-            )
-        }
     }
 }
