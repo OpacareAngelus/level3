@@ -35,7 +35,8 @@ class FragmentContacts : Fragment() {
             viewModel,
             onDeleteUser = { user ->
                 viewModel.userListLiveData.value?.remove(user)
-            }
+            },
+            findNavController()
         )
     }
 
@@ -74,7 +75,15 @@ class FragmentContacts : Fragment() {
 
         val recyclerView: RecyclerView = binding.rvContacts
         recyclerView.adapter = usersAdapter
-        ItemTouchHelper(MyItemTouchHelper(viewModel, usersAdapter, findNavController()).simpleCallback).attachToRecyclerView(recyclerView)
+
+        ItemTouchHelper(
+            MyItemTouchHelper(
+                viewModel,
+                usersAdapter,
+                findNavController()
+            ).simpleCallback
+        ).attachToRecyclerView(recyclerView)
+
     }
 
     private fun setObservers() {

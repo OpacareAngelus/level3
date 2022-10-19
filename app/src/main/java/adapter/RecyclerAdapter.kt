@@ -3,6 +3,8 @@ package adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +18,8 @@ import model.UsersViewModel
 
 class RecyclerAdapter(
     private val userList: UsersViewModel,
-    private val onDeleteUser: (User) -> Unit
+    private val onDeleteUser: (User) -> Unit,
+    private val navGraph: NavController
 ) :
     ListAdapter<User, RecyclerAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<User>() {
 
@@ -43,6 +46,18 @@ class RecyclerAdapter(
 
             binding.imgBtnTrashCan.setOnClickListener {
                 deleteUser(it?.tag as User, itemView)
+            }
+
+            binding.ThisRecyclerView.setOnClickListener {
+                navGraph.navigate(
+                    R.id.action_fragmentContacts_to_fragmentContactProfile,
+                    bundleOf(
+                        Pair("photo", userList.getUser(this.adapterPosition)?.photo),
+                        Pair("name", userList.getUser(this.adapterPosition)?.name),
+                        Pair("career", userList.getUser(this.adapterPosition)?.career),
+                        Pair("address", userList.getUser(this.adapterPosition)?.homeAddress)
+                    )
+                )
             }
         }
     }
