@@ -19,5 +19,7 @@
     <string name="message">повідомлення</string>
     <string name="facebook_logo">f</string>
     <string name="insta_logo">in</string>
-
+    <string name="cancel">Відмінити</string>
+    <string name="deletedUser">"${user.name} видалено."</string>
+    <string name="home_address">домашня адреса</string>
 </resources>
