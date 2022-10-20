@@ -18,4 +18,7 @@
     <string name="message">message</string>
     <string name="facebook_logo">f</string>
     <string name="insta_logo">in</string>
+    <string name="cancel">Cancel</string>
+    <string name="deletedUser">"${user.name} has deleted."</string>
+    <string name="home_address">home address</string>
 </resources>
