@@ -1,4 +1,4 @@
-import adapter.RecyclerAdapter
+import adapter.RecyclerAdapterUserContacts
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -8,9 +8,9 @@ import com.google.android.material.snackbar.Snackbar
 import model.User
 import model.UsersViewModel
 
-class MyItemTouchHelper(
+class SimpleCallBack(
     var viewModel: UsersViewModel,
-    var usersAdapter: RecyclerAdapter,
+    var usersAdapter: RecyclerAdapterUserContacts,
     var navGraph: NavController
 ) {
 
@@ -37,12 +37,11 @@ class MyItemTouchHelper(
                             "${user?.name} has deleted.",
                             Snackbar.LENGTH_LONG
                         )
-                        viewModel.userListLiveData.value?.removeAt(viewHolder.adapterPosition)
-                        usersAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-                        usersAdapter.notifyItemRangeChanged(
-                            viewHolder.adapterPosition,
-                            usersAdapter.itemCount
-                        )
+                        usersAdapter.submitList(viewModel.userListLiveData.value.also {
+                            viewModel.userListLiveData.value?.removeAt(
+                                viewHolder.adapterPosition
+                            )
+                        }?.toMutableList())
                         user?.let { undoUserDeletion(it, delMessage, viewHolder.adapterPosition) }
                         delMessage.show()
                     }
@@ -55,12 +54,12 @@ class MyItemTouchHelper(
 
     /**Method back to list of contacts deleted contact if user push "Cancel" on the Snackbar.*/
     private fun undoUserDeletion(user: User, delMessage: Snackbar, position: Int) {
-        delMessage.setAction("Cancel") {
-            viewModel.userListLiveData.value?.add(user)
-            usersAdapter.notifyItemRangeChanged(
-                position,
-                usersAdapter.itemCount
-            )
+        delMessage.setAction(R.string.cancel) {
+            usersAdapter.submitList(viewModel.userListLiveData.value.also {
+                viewModel.userListLiveData.value?.add(
+                    user!!
+                )
+            }?.toMutableList())
         }
     }
 
