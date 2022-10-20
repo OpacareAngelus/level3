@@ -1,7 +1,8 @@
 package fragments
 
-import MyItemTouchHelper
-import adapter.RecyclerAdapter
+import SimpleCallBack
+import adapter.RecyclerAdapterUserContacts
+import adapter.UserListController
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -23,7 +24,7 @@ import com.example.level3.databinding.MyContactsBinding
 import model.User
 import model.UsersViewModel
 
-class FragmentContacts : Fragment() {
+class FragmentContacts : Fragment(), UserListController {
 
     private lateinit var binding: MyContactsBinding
     private lateinit var dialogBinding: AddContactBinding
@@ -31,13 +32,7 @@ class FragmentContacts : Fragment() {
     private val viewModel: UsersViewModel by viewModels()
 
     private val usersAdapter by lazy {
-        RecyclerAdapter(
-            viewModel,
-            onDeleteUser = { user ->
-                viewModel.userListLiveData.value?.remove(user)
-            },
-            findNavController()
-        )
+        RecyclerAdapterUserContacts(userListController = this, findNavController())
     }
 
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
@@ -73,11 +68,10 @@ class FragmentContacts : Fragment() {
 
         setObservers()
 
-        val recyclerView: RecyclerView = binding.rvContacts
-        recyclerView.adapter = usersAdapter
+        val recyclerView: RecyclerView = binding.rvContacts.apply { adapter = usersAdapter }
 
         ItemTouchHelper(
-            MyItemTouchHelper(
+            SimpleCallBack(
                 viewModel,
                 usersAdapter,
                 findNavController()
@@ -86,9 +80,23 @@ class FragmentContacts : Fragment() {
 
     }
 
+    override fun onContactAdd(user: User) {
+        usersAdapter.submitList(viewModel.userListLiveData.value.also {
+            viewModel.userListLiveData.value?.add(user)
+        }?.toMutableList())
+    }
+
+    override fun onDeleteUser(user: User) {
+        usersAdapter.submitList(viewModel.userListLiveData.value.also {
+            viewModel.userListLiveData.value?.remove(
+                user
+            )
+        }?.toMutableList())
+    }
+
     private fun setObservers() {
         viewModel.userListLiveData.observe(viewLifecycleOwner) {
-            usersAdapter.submitList(viewModel.userListLiveData.value)
+            usersAdapter.submitList(viewModel.userListLiveData.value?.toMutableList())
         }
     }
 
@@ -136,19 +144,20 @@ class FragmentContacts : Fragment() {
 //    }
 
     private fun saveButtonAction(dialog: Dialog) {
-        viewModel.userListLiveData.value?.add(
-            User(
-                0,
-                contactPhoto.toString(),
-                dialogBinding.tietUsername.text.toString(),
-                dialogBinding.tietCareer.text.toString(),
-                dialogBinding.tietEmail.text.toString(),
-                dialogBinding.tietPhone.text.toString(),
-                dialogBinding.tietAddress.text.toString(),
-                dialogBinding.tietDataOfBirth.text.toString()
+        usersAdapter.submitList(viewModel.userListLiveData.value.also {
+            viewModel.userListLiveData.value?.add(
+                User(
+                    0,
+                    contactPhoto.toString(),
+                    dialogBinding.tietUsername.text.toString(),
+                    dialogBinding.tietCareer.text.toString(),
+                    dialogBinding.tietEmail.text.toString(),
+                    dialogBinding.tietPhone.text.toString(),
+                    dialogBinding.tietAddress.text.toString(),
+                    dialogBinding.tietDataOfBirth.text.toString()
+                )
             )
-        )
-        usersAdapter.itemCount.let { usersAdapter.notifyItemRangeChanged(0, it) }
+        }?.toMutableList())
         dialog.dismiss()
     }
 }
