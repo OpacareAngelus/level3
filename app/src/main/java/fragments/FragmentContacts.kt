@@ -18,15 +18,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.level3.databinding.AddContactBinding
-import com.example.level3.databinding.MyContactsBinding
+import com.example.level3.databinding.FragmentContactsBinding
 import model.User
 import model.UsersViewModel
 
 class FragmentContacts : Fragment(), UserListController {
 
-    private lateinit var binding: MyContactsBinding
+    private lateinit var binding: FragmentContactsBinding
     private lateinit var dialogBinding: AddContactBinding
 
     private val viewModel: UsersViewModel by viewModels()
@@ -55,7 +56,7 @@ class FragmentContacts : Fragment(), UserListController {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MyContactsBinding.inflate(layoutInflater)
+        binding = FragmentContactsBinding.inflate(layoutInflater)
 
         binding.tvAddContact.setOnClickListener {
             dialogCreate(inflater)
@@ -69,6 +70,7 @@ class FragmentContacts : Fragment(), UserListController {
         setObservers()
 
         val recyclerView: RecyclerView = binding.rvContacts.apply { adapter = usersAdapter }
+        recyclerView.layoutManager = LinearLayoutManager(activity)
 
         ItemTouchHelper(
             SimpleCallBack(

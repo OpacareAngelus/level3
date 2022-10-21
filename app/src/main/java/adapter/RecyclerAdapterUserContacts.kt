@@ -62,13 +62,13 @@ class RecyclerAdapterUserContacts(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind() {
             RecyclerviewItemBinding.bind(itemView).run {
-                tvName.text = currentList[adapterPosition]?.name
-                tvCareer.text = currentList[adapterPosition]?.career
-                currentList[adapterPosition]?.let { ivUserPhoto.addImage(it) }
-                currentList[adapterPosition]?.id = adapterPosition
+                tvName.text = currentList[absoluteAdapterPosition]?.name
+                tvCareer.text = currentList[absoluteAdapterPosition]?.career
+                currentList[absoluteAdapterPosition]?.let { ivUserPhoto.addImage(it) }
+                currentList[absoluteAdapterPosition]?.id = absoluteAdapterPosition
 
                 imgBtnTrashCan.setOnClickListener {
-                    deleteUser(currentList[adapterPosition]!!, itemView)
+                    deleteUser(currentList[absoluteAdapterPosition]!!, itemView)
                 }
 
                 ThisRecyclerView.setOnClickListener {

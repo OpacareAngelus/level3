@@ -8,7 +8,7 @@
         android:id="@+id/fragmentContacts"
         android:name="fragments.FragmentContacts"
         android:label="my_contacts"
-        tools:layout="@layout/my_contacts" >
+        tools:layout="@layout/fragment_contacts" >
         <action
             android:id="@+id/action_fragmentContacts_to_fragmentContactProfile"
             app:destination="@id/fragmentContactProfile"
