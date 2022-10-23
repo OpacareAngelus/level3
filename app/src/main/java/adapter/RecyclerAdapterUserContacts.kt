@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.level3.R
@@ -13,27 +12,14 @@ import com.example.level3.databinding.RecyclerviewItemBinding
 import com.google.android.material.snackbar.Snackbar
 import extension.addImage
 import model.User
-
-interface UserListController {
-    fun onDeleteUser(user: User)
-    fun onContactAdd(user: User)
-}
+import util.DiffUtil
+import util.UserListController
 
 class RecyclerAdapterUserContacts(
     private val userListController: UserListController,
     private val navGraph: NavController
 ) :
-    ListAdapter<User, RecyclerAdapterUserContacts.ViewHolder>(object :
-        DiffUtil.ItemCallback<User>() {
-
-        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem == newItem
-        }
-    }) {
+    ListAdapter<User, RecyclerAdapterUserContacts.ViewHolder>(DiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -46,8 +32,8 @@ class RecyclerAdapterUserContacts(
     }
 
     private fun deleteUser(user: User, view: View) {
-        val delMessage = Snackbar.make(view, "${user.name} has deleted.", Snackbar.LENGTH_LONG)
         userListController.onDeleteUser(user)
+        val delMessage = Snackbar.make(view, "${user.name} has deleted.", Snackbar.LENGTH_LONG)
         undoUserDeletion(user, delMessage)
         delMessage.show()
     }
@@ -70,12 +56,11 @@ class RecyclerAdapterUserContacts(
                 imgBtnTrashCan.setOnClickListener {
                     deleteUser(currentList[absoluteAdapterPosition]!!, itemView)
                 }
-
                 ThisRecyclerView.setOnClickListener {
                     navGraph.navigate(
                         R.id.action_fragmentContacts_to_fragmentContactProfile,
                         bundleOf(
-                            Pair("photo", ivUserPhoto),
+                            Pair("photo", currentList[absoluteAdapterPosition].photo),
                             Pair("name", tvName.text),
                             Pair("career", tvCareer.text),
                             Pair("address", tvHomeAddress.text)
