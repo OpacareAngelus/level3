@@ -38,7 +38,7 @@
         android:id="@+id/fragmentContactProfile"
         android:name="fragments.FragmentContactProfile"
         android:label="contact_profile"
-        tools:layout="@layout/contact_profile" >
+        tools:layout="@layout/fragment_contact_profile" >
         <action
             android:id="@+id/action_fragmentContactProfile_to_fragmentContacts"
             app:destination="@id/fragmentContacts" />
