@@ -2,7 +2,6 @@ package fragments
 
 import SimpleCallBack
 import adapter.RecyclerAdapterUserContacts
-import adapter.UserListController
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -20,15 +19,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.level3.databinding.AddContactBinding
+import com.example.level3.databinding.DialogAddContactBinding
 import com.example.level3.databinding.FragmentContactsBinding
 import model.User
 import model.UsersViewModel
+import util.UserListController
 
 class FragmentContacts : Fragment(), UserListController {
 
     private lateinit var binding: FragmentContactsBinding
-    private lateinit var dialogBinding: AddContactBinding
+    private lateinit var dialogBinding: DialogAddContactBinding
 
     private val viewModel: UsersViewModel by viewModels()
 
@@ -75,24 +75,27 @@ class FragmentContacts : Fragment(), UserListController {
         ItemTouchHelper(
             SimpleCallBack(
                 viewModel,
-                usersAdapter,
-                findNavController()
+                findNavController(),
+                userListController = this
             ).simpleCallback
         ).attachToRecyclerView(recyclerView)
-
     }
 
     override fun onContactAdd(user: User) {
         usersAdapter.submitList(viewModel.userListLiveData.value.also {
-            viewModel.userListLiveData.value?.add(user)
+            viewModel.add(user)
         }?.toMutableList())
     }
 
     override fun onDeleteUser(user: User) {
         usersAdapter.submitList(viewModel.userListLiveData.value.also {
-            viewModel.userListLiveData.value?.remove(
-                user
-            )
+            viewModel.deleteUser(user)
+        }?.toMutableList())
+    }
+
+    override fun onDeleteUser(position: Int) {
+        usersAdapter.submitList(viewModel.userListLiveData.value.also {
+            viewModel.deleteUser(position)
         }?.toMutableList())
     }
 
@@ -102,26 +105,27 @@ class FragmentContacts : Fragment(), UserListController {
         }
     }
 
-    //add user dialog here
-
     private fun dialogCreate(inflater: LayoutInflater) {
         val dialog = Dialog(inflater.context)
-        dialogBinding = AddContactBinding.inflate(inflater)
+        dialogBinding = DialogAddContactBinding.inflate(inflater)
         dialog.setContentView(dialogBinding.root)
         setDialogListeners(dialog)
         dialog.show()
     }
 
     private fun setDialogListeners(dialog: Dialog) {
-        dialogBinding.imgBtnBackArrow.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialogBinding.btnSaveContact.setOnClickListener {
-            saveButtonAction(dialog)
-        }
-        dialogBinding.ivAddPhoto.setOnClickListener() {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            activityResultLauncher.launch(intent)
+        dialogBinding.apply {
+            imgBtnBackArrow.setOnClickListener {
+                dialog.dismiss()
+            }
+            btnSaveContact.setOnClickListener {
+                saveButtonAction(dialog)
+            }
+            ivAddPhoto.setOnClickListener() {
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intent)
+            }
         }
     }
 
@@ -147,7 +151,7 @@ class FragmentContacts : Fragment(), UserListController {
 
     private fun saveButtonAction(dialog: Dialog) {
         usersAdapter.submitList(viewModel.userListLiveData.value.also {
-            viewModel.userListLiveData.value?.add(
+            viewModel.add(
                 User(
                     0,
                     contactPhoto.toString(),
