@@ -121,7 +121,7 @@ class FragmentContacts : Fragment(), UserListController {
             btnSaveContact.setOnClickListener {
                 saveButtonAction(dialog)
             }
-            ivAddPhoto.setOnClickListener() {
+            ivAddPhoto.setOnClickListener {
                 val intent =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intent)
