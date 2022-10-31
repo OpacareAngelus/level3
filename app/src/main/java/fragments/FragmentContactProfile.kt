@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.level3.databinding.FragmentContactProfileBinding
 import extension.addImage
+import fragments.FragmentContacts.FragmentContactsArgs
 
 class FragmentContactProfile : Fragment() {
 
@@ -23,21 +24,25 @@ class FragmentContactProfile : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = FragmentContactProfileBinding.inflate(layoutInflater)
+
         if (arguments != null) {
-            val bundle = arguments
-            addData(bundle)
+            addData()
         }
-        binding.imgBtnBackArrow.setOnClickListener {
+
+        binding.btnBackArrow.setOnClickListener {
             findNavController().navigateUp()
         }
     }
-    private fun addData(bundle: Bundle?) {
-        binding = FragmentContactProfileBinding.inflate(layoutInflater)
+
+    private fun addData() {
+        val bundle = arguments
+        val user = FragmentContactsArgs.fromBundle(bundle as Bundle).user
         binding.apply {
-            ivUserPhoto.addImage(bundle?.let { FragmentContactsArgs.fromBundle(it).photo })
-            tvName.text = bundle?.let { FragmentContactsArgs.fromBundle(it).name }
-            tvCareer.text = bundle?.let { FragmentContactsArgs.fromBundle(it).career }
-            tvUserAddress.text = bundle?.let { FragmentContactsArgs.fromBundle(it).address }
+            ivAddContactPhoto.addImage(user.photo)
+            tvName.text = user.name
+            tvCareer.text = user.career
+            tvUserAddress.text = user.homeAddress
         }
     }
 }

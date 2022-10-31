@@ -1,9 +1,9 @@
 package util
 
-import model.User
+import data.model.User
 
 interface UserListController {
     fun onDeleteUser(user: User)
-    fun onDeleteUser(position: Int)
     fun onContactAdd(user: User)
+    fun onOpenContactProfile(user: User)
 }

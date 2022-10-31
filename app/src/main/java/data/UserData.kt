@@ -1,6 +1,6 @@
 package data
 
-import model.User
+import data.model.User
 
 object UserData {
 

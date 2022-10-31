@@ -26,13 +26,26 @@
         <entry key="..\:/projects/level2/app/src/main/res/layout/add_contact.xml" value="0.5" />
         <entry key="..\:/projects/level2/app/src/main/res/layout/my_contacts.xml" value="0.42757009345794394" />
         <entry key="..\:/projects/level2/app/src/main/res/layout/recyclerview_item.xml" value="0.33" />
+        <entry key="..\:/projects/level3/app/src/main/res/drawable/add_photo_btn_shaper.xml" value="0.179" />
+        <entry key="..\:/projects/level3/app/src/main/res/drawable/btn_rect.xml" value="0.179" />
+        <entry key="..\:/projects/level3/app/src/main/res/drawable/camera_centred.xml" value="0.1" />
+        <entry key="..\:/projects/level3/app/src/main/res/drawable/frame_rounding.xml" value="0.179" />
+        <entry key="..\:/projects/level3/app/src/main/res/drawable/img_shaper_color_prime.xml" value="0.179" />
+        <entry key="..\:/projects/level3/app/src/main/res/drawable/linkedin_logo.xml" value="0.179" />
         <entry key="..\:/projects/level3/app/src/main/res/layout-land/add_contact.xml" value="0.9" />
         <entry key="..\:/projects/level3/app/src/main/res/layout-land/contact_profile.xml" value="0.33" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout-land/dialog_add_contact.xml" value="0.22" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout-land/fragment_add_contact.xml" value="0.32522522522522523" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout-land/fragment_contact_profile.xml" value="0.18" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout-land/fragment_contacts.xml" value="0.24486571879936808" />
         <entry key="..\:/projects/level3/app/src/main/res/layout-land/my_contacts.xml" value="0.2296875" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/add_contact.xml" value="0.33" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/contact_profile.xml" value="0.36666666666666664" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout/dialog_add_contact.xml" value="0.25" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout/fragment_add_contact.xml" value="0.2" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/fragment_contact_profile.xml" value="0.18541666666666667" />
+        <entry key="..\:/projects/level3/app/src/main/res/layout/fragment_contacts.xml" value="0.33" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/fragment_contacts_list.xml" value="0.36666666666666664" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/main.xml" value="0.365625" />
         <entry key="..\:/projects/level3/app/src/main/res/layout/main_activity.xml" value="0.365625" />

@@ -4,43 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragmentContacts">
+
     <fragment
         android:id="@+id/fragmentContacts"
-        android:name="fragments.FragmentContacts"
+        android:name="fragments.FragmentContacts.FragmentContacts"
         android:label="my_contacts"
-        tools:layout="@layout/fragment_contacts" >
+        tools:layout="@layout/fragment_contacts">
+
         <action
             android:id="@+id/action_fragmentContacts_to_fragmentContactProfile"
             app:destination="@id/fragmentContactProfile"
             app:enterAnim="@anim/slide_in_right" />
         <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="career"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="photo"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="address"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            android:name="user"
+            app:argType="data.model.User"/>
+        <action
+            android:id="@+id/action_fragmentContacts_to_fragmentAddContact"
+            app:destination="@id/fragmentAddContact" />
+
     </fragment>
+
     <fragment
         android:id="@+id/fragmentContactProfile"
         android:name="fragments.FragmentContactProfile"
         android:label="contact_profile"
-        tools:layout="@layout/fragment_contact_profile" >
+        tools:layout="@layout/fragment_contact_profile">
+
         <action
             android:id="@+id/action_fragmentContactProfile_to_fragmentContacts"
             app:destination="@id/fragmentContacts" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/fragmentAddContact"
+        android:name="fragments.FragmentAddContact"
+        android:label="fragment_add_contact"
+        tools:layout="@layout/fragment_add_contact">
+
+        <action
+            android:id="@+id/action_fragmentAddContact_to_fragmentContacts"
+            app:destination="@id/fragmentContacts" />
+        <argument
+            android:name="photo"
+            android:defaultValue="null" />
+        <argument
+            android:name="name"
+            android:defaultValue="null" />
+        <argument
+            android:name="career"
+            android:defaultValue="null" />
+        <argument
+            android:name="email"
+            android:defaultValue="null" />
+        <argument
+            android:name="phone"
+            android:defaultValue="null" />
+        <argument
+            android:name="address"
+            android:defaultValue="null" />
+        <argument
+            android:name="dataBirth"
+            android:defaultValue="null" />
+    </fragment>
+
 </navigation>

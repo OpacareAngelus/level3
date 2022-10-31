@@ -3,23 +3,21 @@ package adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.level3.R
 import com.example.level3.databinding.RecyclerviewItemBinding
 import com.google.android.material.snackbar.Snackbar
 import extension.addImage
-import model.User
-import util.DiffUtil
+import data.model.User
 import util.UserListController
+import util.UserContactsDiffUtil
+
 
 class RecyclerAdapterUserContacts(
-    private val userListController: UserListController,
-    private val navGraph: NavController
+    private val userListController: UserListController
 ) :
-    ListAdapter<User, RecyclerAdapterUserContacts.ViewHolder>(DiffUtil) {
+    ListAdapter<User, RecyclerAdapterUserContacts.ViewHolder>(UserContactsDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -28,7 +26,7 @@ class RecyclerAdapterUserContacts(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(position)
     }
 
     private fun deleteUser(user: User, view: View) {
@@ -46,31 +44,23 @@ class RecyclerAdapterUserContacts(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind() {
+        fun bind(position: Int) {
             RecyclerviewItemBinding.bind(itemView).run {
-                tvName.text = currentList[absoluteAdapterPosition]?.name
-                tvCareer.text = currentList[absoluteAdapterPosition]?.career
-                currentList[absoluteAdapterPosition]?.let { ivUserPhoto.addImage(it) }
-                currentList[absoluteAdapterPosition]?.id = absoluteAdapterPosition
+                val user = currentList[position]
+                tvName.text = user.name
+                tvCareer.text = user.career
+                ivRecyclerItemUserPhoto.addImage(user.photo)
+                user.id = position
 
-                imgBtnTrashCan.setOnClickListener {
-                    deleteUser(currentList[absoluteAdapterPosition]!!, itemView)
+                btnTrashCan.setOnClickListener {
+                    deleteUser(user, itemView)
                 }
-                ThisRecyclerView.setOnClickListener {
-                    navGraph.navigate(
-                        R.id.action_fragmentContacts_to_fragmentContactProfile,
-                        bundleOf(
-                            Pair("photo", currentList[absoluteAdapterPosition].photo),
-                            Pair("name", tvName.text),
-                            Pair("career", tvCareer.text),
-                            Pair("address", tvHomeAddress.text)
-                        )
-                    )
+                itemContactsRecyclerView.setOnClickListener {
+                    userListController.onOpenContactProfile(user)
                 }
             }
         }
     }
-
 }
 
 

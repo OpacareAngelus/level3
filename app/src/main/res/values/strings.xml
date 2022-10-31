@@ -21,4 +21,5 @@
     <string name="cancel">Cancel</string>
     <string name="deletedUser">"${user.name} has deleted."</string>
     <string name="home_address">home address</string>
+    <string name="argument_contacts_to_contact_profile">user</string>
 </resources>

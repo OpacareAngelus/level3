@@ -1,12 +1,11 @@
 package util
 
 import androidx.recyclerview.widget.DiffUtil
-import model.User
+import data.model.User
 
-object DiffUtil : DiffUtil.ItemCallback<User>() {
-
+object UserContactsDiffUtil : DiffUtil.ItemCallback<User>() {
     override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.name == newItem.name
     }
 
     override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {

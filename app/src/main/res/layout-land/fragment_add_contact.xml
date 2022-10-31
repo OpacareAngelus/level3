@@ -1,110 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background"
-    tools:context="activity.AddContactActivity">
+    android:background="?attr/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/clTopPart"
+        android:layout_width="match_parent"
+        android:background="?attr/colorPrimary"
+        android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/v_top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@id/gl_under_v_top" />
-
-
-        <ImageView
-            android:id="@+id/iv_add_photo"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnAddPhoto"
             android:layout_width="@dimen/grey_circle"
             android:layout_height="@dimen/grey_circle"
             android:layout_marginStart="@dimen/margin_large"
             android:background="?attr/colorOnSecondary"
-            android:foreground="@drawable/camera_centred"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_userPhoto"
-            app:layout_constraintStart_toEndOf="@+id/iv_userPhoto"
-            app:layout_constraintTop_toTopOf="@+id/iv_userPhoto" />
+            android:foreground="@drawable/ic_camera_centred"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAddContactPhoto"
+            app:layout_constraintStart_toEndOf="@+id/ivAddContactPhoto"
+            app:layout_constraintTop_toTopOf="@+id/ivAddContactPhoto" />
 
-        <ImageButton
-            android:id="@+id/img_btn_back_arrow"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBackArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_back_arrow"
-            android:background="@drawable/back_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_add_contact"
+            android:padding="@dimen/padding_back_arrow"
+            android:src="@drawable/ic_back_arrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_add_contact" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_add_contact"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAddContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
             android:background="@color/no_color"
             android:text="@string/add_contact"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/large_text_size"
-            app:layout_constraintBottom_toTopOf="@+id/iv_userPhoto"
+            app:layout_constraintBottom_toTopOf="@+id/ivAddContactPhoto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_userPhoto"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAddContactPhoto"
             android:layout_width="@dimen/user_photo_size"
             android:layout_height="@dimen/user_photo_size"
-            android:scaleType="centerCrop"
-            android:backgroundTint="@drawable/btn_rect"
-            android:contentDescription="@string/user_photo"
-            android:foreground="@drawable/img_shaper_color_prime"
+            android:layout_marginTop="@dimen/margin_large"
+            android:foreground="@drawable/shaper_color_prime"
             android:src="@drawable/dummy_user_photo"
-            app:layout_constraintBottom_toBottomOf="@+id/v_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_add_contact" />
+            app:layout_constraintTop_toBottomOf="@id/tvAddContact" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_under_v_top"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clBottomPart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/sv_main"
+            android:id="@+id/svMain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_small"
             android:layout_marginVertical="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_small"
             android:isScrollContainer="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gl_under_v_top">
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
-                android:id="@+id/ll_contacts"
+                android:id="@+id/llContacts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_mid"
                 android:layout_marginEnd="@dimen/margin_mid"
                 android:orientation="vertical"
-                android:verticalScrollbarPosition="right">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_username"
+                    android:id="@+id/ilUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large"
                     android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_username"
+                        android:id="@+id/etUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/background"
@@ -114,13 +104,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_Career"
+                    android:id="@+id/ilCareer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_Career"
+                        android:id="@+id/etCareer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/background"
@@ -130,13 +120,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_email"
+                    android:id="@+id/ilEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_email"
+                        android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/background"
@@ -146,29 +136,30 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_phone"
+                    android:id="@+id/ilPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_phone"
+                        android:id="@+id/etPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/background"
                         android:hint="@string/tie_phone"
+                        android:inputType="phone"
                         android:textColorHint="?attr/colorOnSecondary"
                         android:textSize="@dimen/large_text_size" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_address"
+                    android:id="@+id/ilAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_address"
+                        android:id="@+id/etAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/background"
@@ -178,23 +169,24 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_data_of_birth"
+                    android:id="@+id/ilDataOfBirth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_data_of_birth"
+                        android:id="@+id/etDataOfBirth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/background"
                         android:hint="@string/tie_date_of_birth"
+                        android:inputType="date"
                         android:textColorHint="?attr/colorOnSecondary"
                         android:textSize="@dimen/large_text_size" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/btn_save_contact"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSaveContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large"

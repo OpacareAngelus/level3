@@ -2,146 +2,145 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ContactProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionName="courseImage"
     android:tag="ContactProfile"
-    android:id="@+id/ContactProfile">
+    tools:context="fragments.FragmentContactProfile">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_guidelineCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50" />
-
-    <View
-        android:id="@+id/v_topWindow"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTopPart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/gl_guidelineCenter"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.50"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_Profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/profile"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="@dimen/margin_large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
-        app:layout_constraintTop_toTopOf="@+id/v_topWindow" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_Profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/profile"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/margin_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/f_userData"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:constraint_referenced_ids="iv_userPhoto, tv_name, tv_career, tv_userAddress"
-        app:flow_verticalStyle="packed"
-        app:flow_wrapMode="chain"
-        android:layout_marginTop="@dimen/margin_large"
-        app:layout_constraintBottom_toTopOf="@+id/gl_guidelineCenter"
-        app:layout_constraintEnd_toEndOf="@+id/v_topWindow"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/v_topWindow"
-        app:layout_constraintTop_toTopOf="@+id/tv_Profile"
-        app:layout_constraintVertical_bias="0.0" />
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flowUserData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="ivAddContactPhoto, tvName, tvCareer, tvUserAddress"
+            app:flow_verticalGap="@dimen/margin_small"
+            app:flow_verticalStyle="packed"
+            app:flow_wrapMode="chain"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_Profile" />
 
-    <ImageView
-        android:id="@+id/iv_userPhoto"
-        android:layout_width="@dimen/user_photo_size"
-        android:layout_height="@dimen/user_photo_size"
-        android:backgroundTint="@drawable/btn_rect"
-        android:contentDescription="@string/user_photo"
-        android:foreground="@drawable/img_shaper_color_prime"
-        android:scaleType="centerCrop"
-        android:src="@drawable/dummy_user_photo" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAddContactPhoto"
+            android:layout_width="@dimen/user_photo_size"
+            android:layout_height="@dimen/user_photo_size"
+            android:foreground="@drawable/shaper_color_prime"
+            android:src="@drawable/dummy_user_photo" />
 
-    <ImageButton
-        android:id="@+id/img_btn_back_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_back_arrow"
-        android:layout_marginTop="@dimen/margin_back_arrow"
-        android:background="@drawable/back_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBackArrow"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="@dimen/padding_back_arrow"
+            android:src="@drawable/ic_back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="@dimen/large_text_size"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/large_text_size"
+            tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/tv_career"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/career"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="@dimen/small_text_size"
-        tools:ignore="MissingConstraints" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCareer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/career"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="@dimen/small_text_size"
+            tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/tv_userAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/address"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="@dimen/small_text_size"
-        tools:ignore="MissingConstraints" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUserAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="@dimen/small_text_size"
+            tools:ignore="MissingConstraints" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/btn_send_message"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clBottomPart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_mid"
-        android:layout_marginRight="@dimen/margin_mid"
-        android:layout_marginBottom="@dimen/margin_mid"
-        android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/message"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="@dimen/mid_text_size"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/f_linksToAnotherSN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="iv_facebook, iv_linkedIn"
-        app:flow_horizontalGap="@dimen/margin_large"
-        app:flow_horizontalStyle="spread_inside"
-        app:flow_wrapMode="chain"
-        app:layout_constraintBottom_toTopOf="@+id/btn_send_message"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gl_guidelineCenter" />
+        app:layout_constraintTop_toBottomOf="@+id/clTopPart">
 
-    <ImageView
-        android:id="@+id/iv_facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/facebook_logo"
-        tools:ignore="MissingConstraints" />
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flowLinksToAnotherSN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="ivFacebook, ivLinkedIn"
+            app:flow_horizontalGap="@dimen/margin_large"
+            app:flow_horizontalStyle="spread_inside"
+            app:flow_wrapMode="chain"
+            app:layout_constraintBottom_toTopOf="@+id/btnSendMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_linkedIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/linkedin_logo"
-        tools:ignore="MissingConstraints" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_facebook_logo"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLinkedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_linkedin_logo"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSendMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_mid"
+            android:layout_marginRight="@dimen/margin_mid"
+            android:layout_marginBottom="@dimen/margin_mid"
+            android:backgroundTint="?attr/colorSecondary"
+            android:text="@string/message"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/mid_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
