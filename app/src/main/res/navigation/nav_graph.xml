@@ -45,27 +45,6 @@
         <action
             android:id="@+id/action_fragmentAddContact_to_fragmentContacts"
             app:destination="@id/fragmentContacts" />
-        <argument
-            android:name="photo"
-            android:defaultValue="null" />
-        <argument
-            android:name="name"
-            android:defaultValue="null" />
-        <argument
-            android:name="career"
-            android:defaultValue="null" />
-        <argument
-            android:name="email"
-            android:defaultValue="null" />
-        <argument
-            android:name="phone"
-            android:defaultValue="null" />
-        <argument
-            android:name="address"
-            android:defaultValue="null" />
-        <argument
-            android:name="dataBirth"
-            android:defaultValue="null" />
     </fragment>
 
 </navigation>
