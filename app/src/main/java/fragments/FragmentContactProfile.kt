@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.level3.databinding.FragmentContactProfileBinding
 import extension.addImage
 import fragments.FragmentContacts.FragmentContactsArgs
@@ -13,6 +14,7 @@ import fragments.FragmentContacts.FragmentContactsArgs
 class FragmentContactProfile : Fragment() {
 
     private lateinit var binding: FragmentContactProfileBinding
+    private val args: FragmentContactsArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,9 +28,7 @@ class FragmentContactProfile : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentContactProfileBinding.inflate(layoutInflater)
 
-        if (arguments != null) {
             addData()
-        }
 
         binding.btnBackArrow.setOnClickListener {
             findNavController().navigateUp()
@@ -36,8 +36,7 @@ class FragmentContactProfile : Fragment() {
     }
 
     private fun addData() {
-        val bundle = arguments
-        val user = FragmentContactsArgs.fromBundle(bundle as Bundle).user
+        val user = args.user
         binding.apply {
             ivAddContactPhoto.addImage(user.photo)
             tvName.text = user.name
